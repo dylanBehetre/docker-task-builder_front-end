@@ -25,11 +25,6 @@ docker run -it -p 1880:1880 --name iprocessbuilder processbuilder
 docker stop iprocessbuilder
 ```
 
-* Mettre à jour le conteneur "processbuilder" : 
-```
-docker pull processbuilder
-```
-
 * Relancer l'image "iprocessbuilder" : 
 ```
 docker start iprocessbuilder
