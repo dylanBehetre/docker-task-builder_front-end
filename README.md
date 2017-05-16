@@ -17,7 +17,7 @@ docker build -t iprocessbuilder .
 
 * Lancer le conteneur de l'image "iprocessbuilder" : 
 ```
-docker run -it -p 1880:1880 --name cprocessbuilder iprocessbuilder
+docker run -d -p 1880:1880 --name cprocessbuilder iprocessbuilder
 ```
 
 * Arreter le conteneur "cprocessbuilder" : 
