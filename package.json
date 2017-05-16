@@ -1,0 +1,41 @@
+{
+  "name": "docker-process-builder",
+  "version": "1.0.0",
+  "description": "Outil permettant de créer un enchainement de traitement video (via des conteneurs Docker) à l'aide d'un graphe.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dylanBehetre/docker-task-builder_front-end.git"
+  },
+  "main": "node_modules/node-red/red/red.js",
+  "scripts": {
+    "start": "node $NODE_OPTIONS node_modules/node-red/red.js -v $FLOWS"
+  },
+  "keywords": [
+    "docker",
+    "node-red",
+    "video",
+    "process",
+    "traitement"
+  ],
+  "author": "Dylan Behetre",
+  "contributors": [
+    {
+      "name": "Dylan Behetre"
+    },
+    {
+      "name": "Olivier Peurichard"
+    },
+    {
+      "name": "Antoine-Adrien Parent"
+    },
+    {
+      "name": "Mehidine Chuppeau"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dylanBehetre/docker-task-builder_front-end/issues"
+  },
+  "homepage": "https://github.com/dylanBehetre/docker-task-builder_front-end#readme",
+  "dependencies": {}
+}
