@@ -1,7 +1,8 @@
 FROM nodered/node-red-docker
+RUN ls node_modules/node-red
+RUN ls node_modules/node-red/nodes
+WORKDIR node_modules/node-red	# lieu ou est présent le dossier 'nodes' contenant tout les noeuds 
+RUN ls nodes
+# RUN rm -rf nodes	# on supprime les noeuds existants
 
-WORKDIR node_modules/node-red 	# lieu où est présent le dossier 'nodes' contenant tout les noeux 
-
-RUN rm -rf nodes 				# on supprime les noeux existants
-
-COPY nodes .					# on ajoute nos noeux
+# COPY nodes .	# on ajoute nos noeuds

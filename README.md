@@ -12,20 +12,20 @@ Cet enchainement sera alors exporté au format JSON puis envoyé à un ensemble 
 
 * Construire l'image à partir du Dockerfile : 
 ```
-docker build -t processbuilder .
+docker build -t iprocessbuilder .
 ```
 
-* Lancer l'image du conteneur "processbuilder" : 
+* Lancer le conteneur de l'image "iprocessbuilder" : 
 ```
-docker run -it -p 1880:1880 --name iprocessbuilder processbuilder
-```
-
-* Arreter l'image "iprocessbuilder" : 
-```
-docker stop iprocessbuilder
+docker run -it -p 1880:1880 --name cprocessbuilder iprocessbuilder
 ```
 
-* Relancer l'image "iprocessbuilder" : 
+* Arreter le conteneur "cprocessbuilder" : 
 ```
-docker start iprocessbuilder
+docker stop cprocessbuilder
+```
+
+* Relancer le conteneur "cprocessbuilder" : 
+```
+docker start cprocessbuilder
 ```
