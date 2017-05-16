@@ -10,14 +10,10 @@ RUN rm -rf /usr/src/node-red/node_modules/node-red/nodes
 WORKDIR /usr/src/node-red/
 
 # on desinstalle les noeuds installe via npm
-RUN npm uninstall --save node-red-base64
-RUN npm uninstall --save node-red-email
-RUN npm uninstall --save node-red-feedparser
-RUN npm uninstall --save node-red-msgpack
-RUN npm uninstall --save node-red-random
-RUN npm uninstall --save node-red-rbe
-RUN npm uninstall --save node-red-suncalc
-RUN npm uninstall --save node-red-twitter
+RUN npm uninstall --save node-red-node-msgpack
+RUN npm uninstall --save node-red-node-base64
+RUN npm uninstall --save node-red-node-suncalc
+RUN npm uninstall --save node-red-node-random
 
 # on ajoute nos noeuds
 COPY nodes /usr/src/node-red/node_modules/node-red/nodes
