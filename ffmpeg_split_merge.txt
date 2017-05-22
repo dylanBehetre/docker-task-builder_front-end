@@ -6,5 +6,7 @@ ffmpeg -i ../Scarecrow\ -\ The\ Well\ \(Official\ Video\).mp4 -acodec copy -f se
 ## list.txt = liste des segments à concaténer
 ## format = file 'path to file'
 
+find ./O* -printf "file '%f'\n" |sort -V > list.txt
+
 ffmpeg -f concat -safe 0 -i list.txt -c copy output.mp4
 
