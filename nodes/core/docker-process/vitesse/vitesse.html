@@ -1,0 +1,40 @@
+<script type="text/javascript">
+    RED.nodes.registerType('vitesse',{
+        /*configuration du noeud : */
+		category: 'Processing',
+		defaults: {
+			/* Attribut passé en paramettre du constructeur du .js :*/
+            vitesse: {value:"X1", required:true}
+        },
+		inputs:1,
+        outputs:1,
+        color: '#66ff66',
+		paletteLabel:"Vitesse",
+        label: "Vitesse",
+		inputLabels:"I",
+		outputLabels:"O",
+		icon: "timer.png"
+    });
+</script>
+
+<script type="text/x-red" data-template-name="vitesse">
+    <div class="form-row">
+        <label for="node-input-vitesse"><i class="fa fa-tachometer"></i> Vitesse</label>
+        <select id="node-input-vitesse" name="vitesse">
+			<option value="X1">X1</option>
+			<option value="X2">X2</option>
+			<option value="X3">X3</option>
+			<option value="X4">X4</option>
+			<option value="X5">X5</option>
+			<option value="X6">X6</option>
+			<option value="X7">X7</option>
+			<option value="X8">X8</option>
+			<option value="X9">X9</option>
+			<option value="X10">X10</option>
+		</select>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="vitesse">
+   <p>Noeud permettant d'augmenter la vitesse de la video.</p>
+</script>

@@ -1,0 +1,34 @@
+<script type="text/javascript">
+    RED.nodes.registerType('encodage',{
+        /*configuration du noeud : */
+		category: 'Processing',
+		defaults: {
+            encodage: {value:"H264", required:true}
+        },
+		inputs:1,
+        outputs:1,
+        color: '#6699ff',
+		paletteLabel:"Encodage",
+        label: "Encodage",
+		inputLabels:"I",
+		outputLabels:"O",
+		icon: "split.png"
+    });
+</script>
+
+<script type="text/x-red" data-template-name="encodage">
+    <div class="form-row">
+        <label for="node-input-encodage"><i class="fa fa-filter"></i> Type d'encodage</label>
+        <select id="node-input-encodage" name="encodages">
+			<option value="H264">H.264</option>
+			<option value="H265">H.265</option>
+		</select>
+    </div>
+	<div class="form-tips"><b>Conseil :</b> L'encodage H.264 est conseillé.</div>
+</script>
+
+
+	
+<script type="text/x-red" data-help-name="encodage">
+   <p>Noeud permettant de modifier l'encodage d'un fichier.</p>
+</script>

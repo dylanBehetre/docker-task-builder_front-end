@@ -1,0 +1,29 @@
+<script type="text/javascript">
+    RED.nodes.registerType('volume',{
+        /*configuration du noeud : */
+		category: 'Processing',
+		defaults: {
+            volume: {value:"100", required:true}, 
+        },
+		inputs:1,
+        outputs:1,
+        color: '#ff8c66',
+		paletteLabel:"Volume",
+        label: "Volume",
+		inputLabels:"I",
+		outputLabels:"O",
+		icon: "bridge.png"
+    });
+</script>
+
+<script type="text/x-red" data-template-name="volume">
+	<div class="form-row">
+        <label for="node-input-volume"><i class="fa fa-volume-down"></i> Volume</label>
+		<input id="node-input-volume" type="number"  min="0" max="100">
+    </div>
+</script>
+
+
+<script type="text/x-red" data-help-name="volume">
+   <p>Noeud permettant de modifier le volume de la vidéo.</p>
+</script>
