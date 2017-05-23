@@ -10,3 +10,8 @@ find ./O* -printf "file '%f'\n" |sort -V > list.txt
 
 ffmpeg -f concat -safe 0 -i list.txt -c copy output.mp4
 
+###Speed up
+##[0:v]setpts => alter video speed
+##[0:a]atempo => alter audio speed
+
+ffmpeg -i input.mkv -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a]" -map "[v]" -map "[a]" output.mkv
