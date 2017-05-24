@@ -1,0 +1,71 @@
+[{
+	"id": "fd1e6df0.071fe",
+	"type": "tab",
+	"label": "Flow 1"
+},
+{
+	"id": "fdf52f32.0cd83",
+	"type": "resolution",
+	"z": "fd1e6df0.071fe",
+	"resolution": "720p",
+	"x": 172.5,
+	"y": 306,
+	"wires": [["36dba74c.386968"]]
+},
+{
+	"id": "b0078446.3ad278",
+	"type": "volume",
+	"z": "fd1e6df0.071fe",
+	"volume": "98",
+	"x": 257.5,
+	"y": 479,
+	"wires": [["33a692.887f696e"]]
+},
+{
+	"id": "65b0f307.6454ac",
+	"type": "output-video",
+	"z": "fd1e6df0.071fe",
+	"video": "C:\\fakepath\\18318642_10203142851807559_995897396_o.jpg",
+	"priority": "hight",
+	"x": 351.5,
+	"y": 689,
+	"wires": []
+},
+{
+	"id": "8d527aef.486d58",
+	"type": "input-video",
+	"z": "fd1e6df0.071fe",
+	"video": "C:\\fakepath\\18339391_10203142852127567_996279074_o.jpg",
+	"x": 83.5,
+	"y": 94,
+	"wires": [["d2d90f1b.01fcb"]]
+},
+{
+	"id": "d2d90f1b.01fcb",
+	"type": "encoding",
+	"z": "fd1e6df0.071fe",
+	"encoding": "H264",
+	"x": 131.5,
+	"y": 201,
+	"wires": [["fdf52f32.0cd83"]]
+},
+{
+	"id": "36dba74c.386968",
+	"type": "speed",
+	"z": "fd1e6df0.071fe",
+	"vitesseVideo": "1.00",
+	"vitesseSon": "1.00",
+	"x": 207.5,
+	"y": 396,
+	"wires": [["b0078446.3ad278"]]
+},
+{
+	"id": "33a692.887f696e",
+	"type": "custom",
+	"z": "fd1e6df0.071fe",
+	"nomImage": "scratch",
+	"commandeRun": "docker run -d scratch",
+	"x": 292.5,
+	"y": 584,
+	"wires": [["65b0f307.6454ac"]]
+}]
