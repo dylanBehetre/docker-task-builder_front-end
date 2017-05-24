@@ -11,6 +11,10 @@ module.exports = function(RED) {
 		this.log("InputVideoNode fct !");
 		this.status({fill:"yellow",shape:"dot",text:this.video});
 		
+		this.on('change', function(input) {
+			this.log("InputVideo change fct !");
+		});
+		
 		
 		/*Envoi d'un valeur sur la sortie*/
 		var sortie = { payload:"hi" }

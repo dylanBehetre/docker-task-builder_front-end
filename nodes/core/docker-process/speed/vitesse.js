@@ -1,11 +1,12 @@
 module.exports = function(RED) {
 	/*Fonction servant de constructeur*/
-	function EncodageNode(config) {
+	function SpeedNode(config) {
 		/*Initialisation des fonctionnalités de bases*/
 		RED.nodes.createNode(this, config);
 		
 		/*Recupération des parametres configurer dans le noeud*/
-		this.encodage = config.encodage;
+		this.vitesseVideo = config.vitesseVideo;
+		this.vitesseSon = config.vitesseSon;
 		
 		/*Creation d'un listener qui permet de recuperer l'entre pour travailler dessus*/
 		this.on('input', function(input) {
@@ -13,8 +14,8 @@ module.exports = function(RED) {
 		});
 		
 		/*Traitement souhaite*/
-		this.log("Encodage fct !");
-		this.status({fill:"yellow",shape:"dot",text:this.encodage});
+		this.log("Speed work !");
+		this.status({fill:"yellow",shape:"dot",text:"Video:"+this.vitesseVideo+"\r\n"+"Son:"+this.vitesseSon});
 		
 		
 		/*Envoi d'un valeur sur la sortie*/
@@ -23,7 +24,7 @@ module.exports = function(RED) {
 		
 	}
 	
-	RED.nodes.registerType("encodage", EncodageNode);
+	RED.nodes.registerType("speed",SpeedNode);
 }
 
 /*

@@ -6,8 +6,10 @@ module.exports = function(RED) {
 		
 		/*Recupération des parametres configurer dans le noeud*/
 		this.video = config.video;
+		this.priority = config.priority;
 		
 		/*Creation d'un listener qui permet de recuperer l'entre pour travailler dessus*/
+		this.status({fill:"yellow",shape:"dot",text:this.priority});
 		this.on('input', function(input) {
 			// do something with 'input'
 		});
