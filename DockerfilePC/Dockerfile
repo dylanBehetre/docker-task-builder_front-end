@@ -1,4 +1,5 @@
-FROM nodered/node-red-docker
+#FROM nodered/node-red-docker
+FROM hypriot/rpi-node
 
 # lieu ou est présent le dossier nodes contenant tout les noeuds
 WORKDIR /usr/src/node-red/node_modules/node-red 
@@ -20,4 +21,4 @@ RUN npm uninstall --save node-red-node-rbe
 RUN npm uninstall --save node-red-node-twitter
 
 # on ajoute nos noeuds
-COPY nodes /usr/src/node-red/node_modules/node-red/nodes
+COPY ../nodes /usr/src/node-red/node_modules/node-red/nodes
