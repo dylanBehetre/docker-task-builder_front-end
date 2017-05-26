@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 import sys
 import json
 import sqlite3
@@ -7,26 +7,28 @@ import sqlite3
 #functions definitions
 #check queue position in priority table
 def checkPriorityQueue():
-    with sqlite3.connect('provisioning.db') as DBconn:
+    with sqlite3.connect('bdd/provisioning.db') as DBconn:
         c = DBconn.cursor()
         c.execute("SELECT MAX(order_queue) FROM priority;")
         position = c.fetchone()[0]
-        position = position + 1
     DBconn.close()
     if position is None:
         position = 1
+    else:
+        position = int(position) + 1
     return position
 
 #check queue position in non-priority table
 def checkNormalPosition():
-    with sqlite3.connect('provisioning.db') as DBconn:
+    with sqlite3.connect('bdd/provisioning.db') as DBconn:
         c = DBconn.cursor()
         c.execute("SELECT MAX(order_queue) FROM normal;")
         position = c.fetchone()[0]
-        position = position + 1
     DBconn.close()
     if position is None:
         position = 1
+    else:
+        position = int(position) + 1
     return position
 
 #check if tasks are priority or not
@@ -38,7 +40,7 @@ def checkIfPrio(json_data):
             return True
 
 def insertIntoTable(booleanPrio, json, order_task, order_queue ):
-    with sqlite3.connect('provisioning.db') as DBconn:
+    with sqlite3.connect('bdd/provisioning.db') as DBconn:
         c = DBconn.cursor()
         if booleanPrio:#insert dans table priority
             print("INSERT INTO priority VALUES (json,\""+ str(i) +"\""+ str(position) +")")
@@ -46,6 +48,7 @@ def insertIntoTable(booleanPrio, json, order_task, order_queue ):
             DBconn.commit()
         else:
             print("INSERT INTO normal VALUES (json,\""+ str(i) +"\""+ str(position) +")")
+            c.execute("INSERT INTO normal VALUES (?, ?, ?);", (str(json), str(i), str(position)))
 
 
 
