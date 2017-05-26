@@ -23,7 +23,7 @@ def streamsData( pythonJson ):
 def jsonToPython( theJson ):
     return json.loads(theJson)
 
-def mainFunction():
-    ffprobeJson = ffprobeToJson("../input/Scarecrow.mp4")
+def mainFunction( theFile):
+    ffprobeJson = ffprobeToJson( theFile )
     ffprobePython = jsonToPython(ffprobeJson)
     return streamsData(ffprobePython)
