@@ -1,0 +1,38 @@
+### Get information about the media and its streams (ffprobe)
+
+ffprobe -v quiet -print_format json -show_format -show_streams "input.mp4" > "input.mp4.json"
+
+
+## Split
+
+ffmpeg -i ../Scarecrow\ -\ The\ Well\ \(Official\ Video\).mp4 -acodec copy -f segment -vcodec libx265 -reset_timestamps 1 -map 0 OUTPUT%d.mp4
+
+## Concaténer
+## list.txt = liste des segments à concaténer
+## format = "file 'path to file'"
+
+find ./O* -printf "file '%f'\n" |sort -V > list.txt
+
+ffmpeg -f concat -safe 0 -i list.txt -c copy output.mp4
+
+###Speed up/down
+## On ne peut pas mettre de paramètre pour un stream inexistant
+
+##[0:v]setpts => alter video speed (fonction inverse)
+##[0:a]atempo => alter audio speed (fonction inversement inverse)
+
+ffmpeg -i input.mkv -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a]" -map "[v]" -map "[a]" output.mkv
+
+
+###Volume up/down
+##volume (fonction inversement inverse)
+## -af is an alias for -filter:a
+
+ffmpeg -i Scarecrow\ -\ The\ Well\ \(Official\ Video\).mp4 -af "volume=1.5" output.mp4
+
+###Resolution
+## -vf is an alias for -filter:v
+
+1. ffmpeg -i input.mp4 -vf scale=1080:720 output.mp4 (we impose both width and heigth)
+2. ffmpeg -i input.jpg -vf scale=320:-1 output.png (only one component is specified, so we keep the aspect ratio with -1)
+

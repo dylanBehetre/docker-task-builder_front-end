@@ -1,0 +1,35 @@
+<script type="text/javascript">
+    RED.nodes.registerType('speed',{
+        /*configuration du noeud : */
+		category: 'Processing',
+		defaults: {
+			/* Attribut passé en paramettre du constructeur du .js :*/
+            vitesseVideo: {value:"1.00", required:true},
+            vitesseSon: {value:"1.00", required:true}
+        },
+		inputs:1,
+        outputs:1,
+        color: '#66ff66',
+		paletteLabel:"Speed",
+        label: "Speed",
+		inputLabels:"I",
+		outputLabels:"O",
+		icon: "timer.png"
+    });
+</script>
+
+<script type="text/x-red" data-template-name="speed">
+    <div class="form-row">
+        <label for="node-input-vitesseVideo"><i class="fa fa-tachometer"></i> Vitesse video</label>
+		<input id="node-input-vitesseVideo" type="number" step="0.01" min="0" max="100">
+    </div>
+	<div class="form-row">
+        <label for="node-input-vitesseSon"><i class="fa fa-tachometer"></i> Vitesse son</label>
+		<input id="node-input-vitesseSon" type="number" step="0.01" min="0" max="100">
+    </div>
+	<div class="form-tips"><b>Aide :</b> La vitesse de la vidéo et du son seront multipliées par la valeur saisie.</div>
+</script>
+
+<script type="text/x-red" data-help-name="speed">
+   <p>Noeud permettant d'augmenter la vitesse de la video.</p>
+</script>

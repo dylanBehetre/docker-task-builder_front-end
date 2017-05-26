@@ -1,0 +1,36 @@
+<script type="text/javascript">
+    RED.nodes.registerType('output-video',{
+        /*configuration du noeud : */
+		category: 'Output',
+		defaults: {
+            video: {value:"", required:true},
+			priority:{value:"normal"}
+        },
+		inputs:1,
+        outputs:0,
+        color: '#ffd966',
+		paletteLabel:"Video",
+        label: "Video",
+		inputLabels:"I",
+		icon: "file.png",
+		align:"right"
+    });
+</script>
+
+<script type="text/x-red" data-template-name="output-video">
+	<div class="form-row">
+        <label for="node-input-video"><i class="fa fa-file-video-o"></i> Video</label>
+        <input type="file" id="node-input-video" placeholder="Video">
+    </div>
+	<div class="form-row">
+        <label for="node-input-priority"><i class="fa fa-line-chart"></i> Priority</label>
+		<select id="node-input-priority" name="priorities">
+			<option value="normal">normal</option>
+			<option value="hight">hight</option>
+		</select>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="output-video">
+   <p>Noeud permettant d'exporter la video résultant du travail.</p>
+</script>

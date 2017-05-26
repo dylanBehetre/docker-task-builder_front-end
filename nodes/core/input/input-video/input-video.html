@@ -1,0 +1,27 @@
+<script type="text/javascript">
+    RED.nodes.registerType('input-video',{
+        /*configuration du noeud : */
+		category: 'Input',
+		defaults: {
+            video: {value:"", required:true, validate:"", type:""}
+        },
+		inputs:0,
+        outputs:1,
+        color: '#ffd966',
+		paletteLabel:"Video",
+        label: "Video",
+		outputLabels:"O",
+		icon: "file.png"
+    });
+</script>
+
+<script type="text/x-red" data-template-name="input-video">
+	<div class="form-row">
+        <label for="node-input-video"><i class="fa fa-file-video-o"></i> Video</label>
+        <input type="file" id="node-input-video" placeholder="video">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="input-video">
+   <p>Noeud permettant d'importer la video de travail</p>
+</script>

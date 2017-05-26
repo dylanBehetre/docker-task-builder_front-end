@@ -1,0 +1,32 @@
+<script type="text/javascript">
+    RED.nodes.registerType('resolution',{
+        /*configuration du noeud : */
+		category: 'Processing',
+		defaults: {
+            resolution: {value:"1080p", required:true}
+        },
+		inputs:1,
+        outputs:1,
+        color: '#ff66ff',
+		paletteLabel:"Resolution",
+        label: "Resolution",
+		inputLabels:"I",
+		outputLabels:"O",
+		icon: "range.png"
+    });
+</script>
+
+<script type="text/x-red" data-template-name="resolution">
+    <div class="form-row">
+        <label for="node-input-resolution"><i class="fa fa-filter"></i> Résolution</label>
+        <select id="node-input-resolution" name="Résolution">
+			<option value="480p">480p</option>
+			<option value="720p">720p</option>
+			<option value="1080p">1080p</option>
+		</select>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="resolution">
+   <p>Noeud permetant de modifier la résolution d'une vidéo.</p>
+</script>

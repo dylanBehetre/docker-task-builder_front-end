@@ -1,0 +1,40 @@
+<script type="text/javascript">
+    RED.nodes.registerType('custom',{
+        /*configuration du noeud : */
+		category: 'Processing',
+		defaults: {
+			/* Attribut passé en paramettre du constructeur du .js :*/
+            nomImage: {value:"", required:true}, 
+			commandeRun: {value:"docker run -d nomImage", required:true}  
+			//value:(any type), required:(boolean), validate:(function), type:(string)
+        },
+		inputs:1,
+        outputs:1,
+        color: '#DAC4B4',
+		paletteLabel:"Custom",
+        label: 	function() {
+					return this.nomImage||"Custom";
+				},
+		inputLabels:"I",
+		outputLabels:"O",
+		icon: "cog.png"
+    });
+</script>
+
+<script type="text/x-red" data-template-name="custom">
+    <div class="form-row">
+        <label for="node-input-nomImage"><i class="fa fa-ship"></i> Nom image docker</label>
+        <input type="text" id="node-input-nomImage" placeholder="Nom de l'image docker présente sur le DockerHub">
+    </div>
+    <div class="form-tips"><b>Aide :</b> https://hub.docker.com</div>
+	<div class="form-row">
+        <label for="node-input-commandeRun"><i class="fa fa-terminal"></i> Commande de lancement</label>
+        <input type="text" id="node-input-commandeRun" placeholder="Commande docker run lançant l'image docker">
+    </div>
+    <div class="form-tips"><b>Aide :</b> https://docs.docker.com/engine/reference/commandline/run/</div>
+    <div class="form-tips"><b>ex :</b> docker run -d -p 1880:1880 nomImageDocker</div>
+</script>
+
+<script type="text/x-red" data-help-name="custom">
+   <p>Noeud permettant d'ajouter une image docker autre que celle proposée dans le traitement.</p>
+</script>
