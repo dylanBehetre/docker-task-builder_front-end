@@ -64,7 +64,7 @@
 	"type": "output-video",
 	"z": "fd1e6df0.071fe",
 	"video": "C:\\fakepath\\logo_esir.png",
-	"priority": "1",
+	"priority": "0",
 	"x": 476.5,
 	"y": 582,
 	"wires": []

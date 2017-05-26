@@ -1,0 +1,5 @@
+Commande pour créer un service, le monter au système de fichier (permet la lecture ET l'écriture en local) le répartir sur les workers, l'empêcher de se relancer une fois finis :D
+docker service create --mount type=bind,src=/le/chemin/local/vers/le/dossier/qui/va/bien,dst=/files(par exemple) --mode=global --restart-condition=none --name=le_nom_du_container VOTRE_IMAGE_DOCKER les paramètres qui vont bien selon le point d'entrée de l'image
+
+exemple pour le volume:
+docker service create --mount type=bind,src=/home/toinou/Documents,dst=/files --mode=global --restart-condition=none --name=test_ffmpeg sjourdan/ffmpeg -y -i /files/video.mp4 -af volume=10 /files/volume_video.mp4

@@ -33,3 +33,5 @@ with sqlite3.connect('bdd/provisioning.db') as DBconn:
 DBconn.close()
 print(commands)
 print("from "+table)
+##simulation lancer service faire un bon nommage
+##simulation savoir si script terminé dans docker service ps puis merge dans script différent
