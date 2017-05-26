@@ -22,25 +22,6 @@
 	"wires": [["33a692.887f696e"]]
 },
 {
-	"id": "65b0f307.6454ac",
-	"type": "output-video",
-	"z": "fd1e6df0.071fe",
-	"video": "C:\\fakepath\\18318642_10203142851807559_995897396_o.jpg",
-	"priority": "hight",
-	"x": 351.5,
-	"y": 689,
-	"wires": []
-},
-{
-	"id": "8d527aef.486d58",
-	"type": "input-video",
-	"z": "fd1e6df0.071fe",
-	"video": "C:\\fakepath\\18339391_10203142852127567_996279074_o.jpg",
-	"x": 83.5,
-	"y": 94,
-	"wires": [["d2d90f1b.01fcb"]]
-},
-{
 	"id": "d2d90f1b.01fcb",
 	"type": "encoding",
 	"z": "fd1e6df0.071fe",
@@ -67,5 +48,24 @@
 	"commandeRun": "docker run -d scratch",
 	"x": 292.5,
 	"y": 584,
-	"wires": [["65b0f307.6454ac"]]
+	"wires": [["b6893e11.2c10c"]]
+},
+{
+	"id": "447363f7.bce22c",
+	"type": "input-video",
+	"z": "fd1e6df0.071fe",
+	"video": "C:\\fakepath\\ESIR-ISATI.png",
+	"x": 126.5,
+	"y": 107,
+	"wires": [["d2d90f1b.01fcb"]]
+},
+{
+	"id": "b6893e11.2c10c",
+	"type": "output-video",
+	"z": "fd1e6df0.071fe",
+	"video": "C:\\fakepath\\logo_esir.png",
+	"priority": "1",
+	"x": 476.5,
+	"y": 582,
+	"wires": []
 }]
