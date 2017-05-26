@@ -1,0 +1,13 @@
+CREATE TABLE priority (
+  command TEXT NOT NULL,
+  order_task NUMBER NOT NULL,
+  order_queue NUMBER NOT NULL,
+  PRIMARY KEY(order_queue, order_task)
+);
+
+CREATE TABLE normal (
+  command TEXT NOT NULL,
+  order_task NUMBER NOT NULL,
+  order_queue NUMBER NOT NULL,
+  PRIMARY KEY(order_queue, order_task)
+);

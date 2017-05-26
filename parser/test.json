@@ -26,7 +26,7 @@
 	"type": "output-video",
 	"z": "fd1e6df0.071fe",
 	"video": "C:\\fakepath\\18318642_10203142851807559_995897396_o.jpg",
-	"priority": "hight",
+	"priority": "1",
 	"x": 351.5,
 	"y": 689,
 	"wires": []
