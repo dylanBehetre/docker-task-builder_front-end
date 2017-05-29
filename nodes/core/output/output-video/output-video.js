@@ -9,7 +9,19 @@ module.exports = function(RED) {
 		this.priority = config.priority;
 		
 		/*Creation d'un listener qui permet de recuperer l'entre pour travailler dessus*/
-		this.status({fill:"yellow",shape:"dot",text:this.priority});
+		var priorityString = "";
+		switch (this.priority) {
+			case "0" : 
+				priorityString = "Normal";
+				break;
+			case "1" : 
+				priorityString = "High";
+				break;
+			default:
+				priorityString = "inconnue";
+				break;
+		}
+		this.status({fill:"yellow",shape:"dot",text:"Priority : "+priorityString});
 		this.on('input', function(input) {
 			// do something with 'input'
 		});

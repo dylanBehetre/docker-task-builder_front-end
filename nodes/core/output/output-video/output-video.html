@@ -4,7 +4,7 @@
 		category: 'Output',
 		defaults: {
             video: {value:"", required:true},
-			priority:{value:"normal"}
+			priority:{value:"0"}
         },
 		inputs:1,
         outputs:0,
@@ -25,8 +25,8 @@
 	<div class="form-row">
         <label for="node-input-priority"><i class="fa fa-line-chart"></i> Priority</label>
 		<select id="node-input-priority" name="priorities">
-			<option value="normal">normal</option>
-			<option value="hight">hight</option>
+			<option value="0">normal</option>
+			<option value="1">high</option>
 		</select>
     </div>
 </script>

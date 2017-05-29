@@ -3,7 +3,7 @@
         /*configuration du noeud : */
 		category: 'Input',
 		defaults: {
-            video: {value:"", required:true, validate:"", type:""}
+            video: {value:"", required:true}
         },
 		inputs:0,
         outputs:1,
@@ -17,9 +17,33 @@
 
 <script type="text/x-red" data-template-name="input-video">
 	<div class="form-row">
-        <label for="node-input-video"><i class="fa fa-file-video-o"></i> Video</label>
+		<label for="node-input-video"><i class="fa fa-file-video-o"></i> Video</label>
         <input type="file" id="node-input-video" placeholder="video">
     </div>
+	<div class="form-row">
+		<form method ='post' action='' enctype="multipart/form-data">
+		<input type='file' name='fileUploaded'>
+		<input type='submit'>
+    </div>
+	<script> 
+	var fileInput = document.querySelector('#node-input-video');
+	fileInput.addEventListener('change', function() {
+		alert(this.files[0].name);
+		
+		var xhr = new XMLHttpRequest();
+
+		xhr.open('POST', 'http://localhost:1880/red/', true);
+		xhr.addEventListener('load', function() {
+			alert('Upload terminé !');
+		});
+
+		var form = new FormData();
+		form.append('node-input-video', fileInput.files[0]);
+		xhr.send(form);
+	});
+	
+	
+	</script>
 </script>
 
 <script type="text/x-red" data-help-name="input-video">

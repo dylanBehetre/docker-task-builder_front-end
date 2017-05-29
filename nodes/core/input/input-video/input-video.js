@@ -11,6 +11,8 @@ module.exports = function(RED) {
 		this.log("InputVideoNode fct !");
 		this.status({fill:"yellow",shape:"dot",text:this.video});
 		
+		this.log(this.video);
+		
 		this.on('change', function(input) {
 			this.log("InputVideo change fct !");
 		});
