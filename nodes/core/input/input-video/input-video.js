@@ -9,14 +9,11 @@ module.exports = function(RED) {
 		
 		/*Traitement souhaite*/
 		this.log("InputVideoNode fct !");
-		this.status({fill:"yellow",shape:"dot",text:this.video});
 		
-		this.log(this.video);
-		
-		this.on('change', function(input) {
-			this.log("InputVideo change fct !");
-		});
-		
+		var iNameBeginning = this.video.lastIndexOf("\\\\");
+		console.log(iNameBeginning);
+		var videoName = this.video.substring(iNameBeginning);
+		this.status({fill:"yellow",shape:"dot",text:videoName||"Pas de video en upload"});	
 		
 		/*Envoi d'un valeur sur la sortie*/
 		var sortie = { payload:"hi" }

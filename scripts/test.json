@@ -48,24 +48,24 @@
 	"commandeRun": "docker run -d scratch",
 	"x": 292.5,
 	"y": 584,
-	"wires": [["b6893e11.2c10c"]]
+	"wires": [["6c41390b.f5d2a8"]]
 },
 {
-	"id": "447363f7.bce22c",
-	"type": "input-video",
-	"z": "fd1e6df0.071fe",
-	"video": "C:\\fakepath\\ESIR-ISATI.png",
-	"x": 126.5,
-	"y": 107,
-	"wires": [["d2d90f1b.01fcb"]]
-},
-{
-	"id": "b6893e11.2c10c",
+	"id": "6c41390b.f5d2a8",
 	"type": "output-video",
 	"z": "fd1e6df0.071fe",
-	"video": "C:\\fakepath\\logo_esir.png",
+	"videoName": "Blop",
 	"priority": "0",
-	"x": 476.5,
-	"y": 582,
+	"x": 520.5,
+	"y": 508,
 	"wires": []
+},
+{
+	"id": "474ea74b.445418",
+	"type": "input-video",
+	"z": "fd1e6df0.071fe",
+	"video": "C:\\fakepath\\Leo2.jpg",
+	"x": 61.5,
+	"y": 132,
+	"wires": [["d2d90f1b.01fcb"]]
 }]

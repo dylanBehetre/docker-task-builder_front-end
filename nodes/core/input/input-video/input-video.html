@@ -18,31 +18,28 @@
 <script type="text/x-red" data-template-name="input-video">
 	<div class="form-row">
 		<label for="node-input-video"><i class="fa fa-file-video-o"></i> Video</label>
-        <input type="file" id="node-input-video" placeholder="video">
+		<input type="file" id="node-input-video" placeholder="video">
     </div>
-	<div class="form-row">
-		<form method ='post' action='' enctype="multipart/form-data">
-		<input type='file' name='fileUploaded'>
-		<input type='submit'>
-    </div>
-	<script> 
+	
+	<script>
+	
+	
 	var fileInput = document.querySelector('#node-input-video');
 	fileInput.addEventListener('change', function() {
-		alert(this.files[0].name);
-		
-		var xhr = new XMLHttpRequest();
-
-		xhr.open('POST', 'http://localhost:1880/red/', true);
-		xhr.addEventListener('load', function() {
-			alert('Upload terminé !');
-		});
-
-		var form = new FormData();
-		form.append('node-input-video', fileInput.files[0]);
-		xhr.send(form);
+		var name = this.files[0].name;
+		alert("La vidéo "+name+" va être chargé sur notre cluster pour un traitement futur !");
+ 		
+ 		var xhr = new XMLHttpRequest();
+ 
+ 		xhr.open('POST', 'http://localhost:1881/upload', true);
+ 		xhr.addEventListener('load', function() {
+ 			alert("La vidéo "+name+" à été parfaitement chargé !");
+ 		});
+ 
+ 		var form = new FormData();
+ 		form.append('maVideo', fileInput.files[0]);
+ 		xhr.send(form);
 	});
-	
-	
 	</script>
 </script>
 
