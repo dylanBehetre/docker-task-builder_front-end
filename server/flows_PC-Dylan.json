@@ -1,0 +1,97 @@
+[
+    {
+        "id": "fd1e6df0.071fe",
+        "type": "tab",
+        "label": "Flow 1"
+    },
+    {
+        "id": "fdf52f32.0cd83",
+        "type": "resolution",
+        "z": "fd1e6df0.071fe",
+        "resolution": "720p",
+        "x": 379.5,
+        "y": 231,
+        "wires": [
+            [
+                "36dba74c.386968"
+            ]
+        ]
+    },
+    {
+        "id": "b0078446.3ad278",
+        "type": "volume",
+        "z": "fd1e6df0.071fe",
+        "volume": "98",
+        "x": 733.5,
+        "y": 300,
+        "wires": [
+            [
+                "33a692.887f696e"
+            ]
+        ]
+    },
+    {
+        "id": "d2d90f1b.01fcb",
+        "type": "encoding",
+        "z": "fd1e6df0.071fe",
+        "encoding": "H264",
+        "x": 204.5,
+        "y": 197,
+        "wires": [
+            [
+                "fdf52f32.0cd83"
+            ]
+        ]
+    },
+    {
+        "id": "36dba74c.386968",
+        "type": "speed",
+        "z": "fd1e6df0.071fe",
+        "vitesseVideo": "1.00",
+        "vitesseSon": "1.00",
+        "x": 556.5,
+        "y": 266,
+        "wires": [
+            [
+                "b0078446.3ad278"
+            ]
+        ]
+    },
+    {
+        "id": "33a692.887f696e",
+        "type": "custom",
+        "z": "fd1e6df0.071fe",
+        "nomImage": "scratch",
+        "commandeRun": "docker run -d scratch",
+        "x": 906.5,
+        "y": 354,
+        "wires": [
+            [
+                "6c41390b.f5d2a8"
+            ]
+        ]
+    },
+    {
+        "id": "6c41390b.f5d2a8",
+        "type": "output-video",
+        "z": "fd1e6df0.071fe",
+        "videoName": "Blop",
+        "priority": "1",
+        "x": 572.5,
+        "y": 526,
+        "wires": []
+    },
+    {
+        "id": "474ea74b.445418",
+        "type": "input-video",
+        "z": "fd1e6df0.071fe",
+        "video": "C:\\fakepath\\JB.jpg",
+        "x": 61.5,
+        "y": 132,
+        "wires": [
+            [
+                "d2d90f1b.01fcb"
+            ]
+        ]
+    }
+]

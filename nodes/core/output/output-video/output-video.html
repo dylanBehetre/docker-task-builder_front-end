@@ -3,7 +3,7 @@
         /*configuration du noeud : */
 		category: 'Output',
 		defaults: {
-            video: {value:"", required:true},
+            videoName: {value:"", required:true},
 			priority:{value:"0"}
         },
 		inputs:1,
@@ -19,8 +19,8 @@
 
 <script type="text/x-red" data-template-name="output-video">
 	<div class="form-row">
-        <label for="node-input-video"><i class="fa fa-file-video-o"></i> Video</label>
-        <input type="file" id="node-input-video" placeholder="Video">
+        <label for="node-input-videoName"><i class="fa fa-file-video-o"></i> Video</label>
+        <input type="text" id="node-input-videoName" placeholder="myVideo">
     </div>
 	<div class="form-row">
         <label for="node-input-priority"><i class="fa fa-line-chart"></i> Priority</label>

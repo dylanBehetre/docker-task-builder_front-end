@@ -5,7 +5,7 @@ module.exports = function(RED) {
 		RED.nodes.createNode(this, config);
 		
 		/*Recupération des parametres configurer dans le noeud*/
-		this.video = config.video;
+		this.videoName = config.videoName;
 		this.priority = config.priority;
 		
 		/*Creation d'un listener qui permet de recuperer l'entre pour travailler dessus*/
@@ -21,7 +21,11 @@ module.exports = function(RED) {
 				priorityString = "inconnue";
 				break;
 		}
+		
 		this.status({fill:"yellow",shape:"dot",text:"Priority : "+priorityString});
+		
+		//alert('Votre video est disponible : <a href="http://example.com/files/myfile.pdf" target="_blank">Download</a>');
+		//window.open("http://localhost:1881/test.jpg");
 		this.on('input', function(input) {
 			// do something with 'input'
 		});

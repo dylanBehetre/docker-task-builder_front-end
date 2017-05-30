@@ -16,9 +16,6 @@ var http = require('http');
 var formidable = require('formidable');
 var fs = require('fs');
 
-var path = require('path');
-var mime = require('mime');
-
 var express = require("express");
 var app = express();
 
@@ -30,6 +27,7 @@ var server = http.createServer(function (req, res) {
 		form.parse(req, function (err, fields, files) {
 			console.log(files);
 			var oldpath = files.maVideo.path;
+			//var newpath = 'C:\Users\Dylan' + files.maVideo.name;
 			var newpath = 'C:\Users\Dylan' + files.maVideo.name;
 			console.log(files.maVideo.name+" a ete uploade !");
 			fs.rename(oldpath, newpath, function (err) {

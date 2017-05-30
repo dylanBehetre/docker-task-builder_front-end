@@ -13,7 +13,7 @@ module.exports = function(RED) {
 		var iNameBeginning = this.video.lastIndexOf("\\\\");
 		console.log(iNameBeginning);
 		var videoName = this.video.substring(iNameBeginning);
-		this.status({fill:"yellow",shape:"dot",text:videoName||"Pas de video en upload"});	
+		this.status({fill:"yellow",shape:"dot",text:videoName||""});	
 		
 		/*Envoi d'un valeur sur la sortie*/
 		var sortie = { payload:"hi" }
