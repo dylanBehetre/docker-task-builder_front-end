@@ -1,6 +1,7 @@
 import ffprobe
 import subprocess
 import sys
+import os
 from subprocess import Popen, PIPE
 
 def getFfprobe():
@@ -8,14 +9,24 @@ def getFfprobe():
     return streams, length
 
 def countAudio( streams, length ):
+    cpt = 0
     for s in streams:
         if(s['codec_type'] == 'audio'):
-            list_audio.append(s['index'])
+            list_audio.append(cpt)
+            cpt++
 
 def launchCommand():
     audioNumber = len(list_audio)
+    command = ''
+    baseName = os.path.basename(the_file)
+
+    for audio in list_audio:
+        cpt = 0
+        command+='[%s:a]' %cpt
+
+    print(command)
     print (subprocess.check_output(
-        'ffmpeg -i %s -af volume=%s volume_%s' %(the_file, new_volume, the_file),shell=True))
+        'ffmpeg -i %s -af volume=%s volume_%s' %(the_file, new_volume, baseName),shell=True))
 
 def main():
     streams, length = getFfprobe()
