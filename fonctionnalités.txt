@@ -5,7 +5,7 @@ ffprobe -v quiet -print_format json -show_format -show_streams "input.mp4" > "in
 
 ## Split
 
-ffmpeg -i ../Scarecrow\ -\ The\ Well\ \(Official\ Video\).mp4 -acodec copy -f segment -vcodec libx265 -reset_timestamps 1 -map 0 OUTPUT%d.mp4
+ffmpeg -i ../Scarecrow\ -\ The\ Well\ \(Official\ Video\).mp4 -reset_timestamps 1 -map 0 OUTPUT%d.mp4
 
 ## Concaténer
 ## list.txt = liste des segments à concaténer
@@ -19,16 +19,18 @@ ffmpeg -f concat -safe 0 -i list.txt -c copy output.mp4
 ## On ne peut pas mettre de paramètre pour un stream inexistant
 
 ##[0:v]setpts => alter video speed (fonction inverse)
-##[0:a]atempo => alter audio speed (fonction inversement inverse)
+##[0:a]atempo => alter audio speed (fonction inversement inverse) (compris entre 0.5 et 2)
 
-ffmpeg -i input.mkv -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a]" -map "[v]" -map "[a]" output.mkv
+ffmpeg -i input/Insaisissables.mkv -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a:0]atempo=2.0;[0:a:1]atempo=2.0" -map "[v]" -map 0:a:0 -map 0:a:1 outputMultiAudio.mkv
+
 
 
 ###Volume up/down
 ##volume (fonction inversement inverse)
 ## -af is an alias for -filter:a
 
-ffmpeg -i Scarecrow\ -\ The\ Well\ \(Official\ Video\).mp4 -af "volume=1.5" output.mp4
+ffmpeg -i input/Insaisissables.mkv -af "volume=15" -map 0:a:0 -map 0:a:1  output/mapInsaisissables.mkv
+
 
 ###Resolution
 ## -vf is an alias for -filter:v

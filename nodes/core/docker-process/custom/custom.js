@@ -5,8 +5,8 @@ module.exports = function(RED) {
 		RED.nodes.createNode(this, config);
 		
 		/*Recupération des parametres configurer dans le noeud*/
-		this.attribut1 = config.attribut1;
-		this.attribut2 = config.attribut2;
+		this.nomImage = config.nomImage;
+		this.commandeRun = config.commandeRun;
 		
 		/*Creation d'un listener qui permet de recuperer l'entre pour travailler dessus*/
 		this.on('input', function(input) {
