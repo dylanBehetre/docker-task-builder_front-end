@@ -16,8 +16,15 @@ var http = require('http');
 var formidable = require('formidable');
 var fs = require('fs');
 
-http.createServer(function (req, res) {
+var path = require('path');
+var mime = require('mime');
+
+var express = require("express");
+var app = express();
+
+var server = http.createServer(function (req, res) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
+	
 	if (req.url == '/upload') {
 		var form = new formidable.IncomingForm();
 		form.parse(req, function (err, fields, files) {
@@ -32,6 +39,31 @@ http.createServer(function (req, res) {
 			});
 		});
 	}
-}).listen(1881);
 
-console.log("Serveur lancé !");
+	res.writeHead(200);
+	res.end('Ok !');
+});
+
+server.listen(1881, function(){
+		console.log("Serveur lancé !");
+});
+
+app.get('/download', function(req, res){
+		var filename = 'test.jpg';
+		console.log("Telechargement de "+filename+" lance !");
+		var file = __dirname +'/'+ filename;
+		
+		res.download(file, filename, function(err){
+		  if (err) {
+			console.log(err);
+		  } else {
+			// decrement a download credit, etc.
+		  }
+		});
+		
+});
+
+app.listen(1882, function(){
+		console.log("ServeurExpress");
+});
+
