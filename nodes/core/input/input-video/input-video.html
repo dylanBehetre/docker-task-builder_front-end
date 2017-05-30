@@ -18,28 +18,17 @@
 <script type="text/x-red" data-template-name="input-video">
 	<div class="form-row">
 		<label for="node-input-video"><i class="fa fa-file-video-o"></i> Video</label>
-        <input type="file" id="node-input-video" placeholder="video">
+		
+		<form action="http://localhost:1881/upload" method="post" enctype="multipart/form-data">
+			<input type="file" id="node-input-video" name="filetoupload"><br>
+			<input type="submit" value="Upload">
+		</form>
     </div>
-	<div class="form-row">
-		<form method ='post' action='' enctype="multipart/form-data">
-		<input type='file' name='fileUploaded'>
-		<input type='submit'>
-    </div>
+	
 	<script> 
 	var fileInput = document.querySelector('#node-input-video');
 	fileInput.addEventListener('change', function() {
-		alert(this.files[0].name);
-		
-		var xhr = new XMLHttpRequest();
-
-		xhr.open('POST', 'http://localhost:1880/red/', true);
-		xhr.addEventListener('load', function() {
-			alert('Upload terminé !');
-		});
-
-		var form = new FormData();
-		form.append('node-input-video', fileInput.files[0]);
-		xhr.send(form);
+		//alert(this.files[0].name);
 	});
 	
 	
