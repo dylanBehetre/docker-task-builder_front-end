@@ -5,7 +5,7 @@ ffprobe -v quiet -print_format json -show_format -show_streams "input.mp4" > "in
 
 ## Split
 
-ffmpeg -i ../Scarecrow\ -\ The\ Well\ \(Official\ Video\).mp4 -acodec copy -f segment -vcodec libx265 -reset_timestamps 1 -map 0 OUTPUT%d.mp4
+ffmpeg -i ../Scarecrow\ -\ The\ Well\ \(Official\ Video\).mp4 -reset_timestamps 1 -map 0 OUTPUT%d.mp4
 
 ## Concaténer
 ## list.txt = liste des segments à concaténer
