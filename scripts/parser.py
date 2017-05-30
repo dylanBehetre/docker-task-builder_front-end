@@ -2,6 +2,7 @@
 import sys
 import json
 import sqlite3
+import uuid
 
 
 #functions definitions
@@ -39,17 +40,17 @@ def checkIfPrio(json_data):
                 return False
             return True
 
-def insertIntoTable(booleanPrio, json, order_task, order_queue ):
+def insertIntoTable(booleanPrio, json, order_task, order_queue, uuid):
     with sqlite3.connect('bdd/provisioning.db') as DBconn:
         c = DBconn.cursor()
         if booleanPrio:#insert dans table priority
-            print("INSERT INTO priority VALUES (json,\""+ str(i) +"\""+ str(position) +")")
-            c.execute("INSERT INTO priority VALUES (?, ?, ?);", (str(json), str(i), str(position)))
-            DBconn.commit()
+            print("INSERT INTO priority VALUES (\""+uuid+"\", json, \""+ str(i) +"\", \""+ str(position) +"\")")
+            c.execute("INSERT INTO priority VALUES (?, ?, ?, ?);", (uuid, str(json), str(i), str(position)))
         else:
-            print("INSERT INTO normal VALUES (json,\""+ str(i) +"\""+ str(position) +")")
-            c.execute("INSERT INTO normal VALUES (?, ?, ?);", (str(json), str(i), str(position)))
-
+            print("INSERT INTO normal VALUES (\""+uuid+"\", json, \""+ str(i) +"\", \""+ str(position) +"\")")
+            c.execute("INSERT INTO normal VALUES (?, ?, ?, ?);", (uuid, str(json), str(i), str(position)))
+        DBconn.commit()
+        #fermer la table
 
 
 #check if the number of parameter is correct
@@ -81,6 +82,7 @@ else:
     position = checkNormalPosition()
 
 list_tasks = {} #json final
+uuid = str(uuid.uuid4())[:8]
 for i in range(1, len(data)):
     intermediateJSON = {}
     finalJSON = {}
@@ -90,52 +92,52 @@ for i in range(1, len(data)):
         intermediateJSON['image'] = data[i]['nomImage']
         intermediateJSON['command'] = data[i]['commandeRun']
         finalJSON['custom'] = intermediateJSON
-        insertIntoTable(priority, finalJSON, i, position)
+        insertIntoTable(priority, finalJSON, i, position, uuid)
 
     elif data[i]['type'] == 'encoding':
         intermediateJSON['codec'] = data[i]['encoding']
         finalJSON['encoding'] = intermediateJSON
-        insertIntoTable(priority, finalJSON, i, position)
+        insertIntoTable(priority, finalJSON, i, position, uuid)
 
     elif data[i]['type'] == 'input-video':
         intermediateJSON['path'] = data[i]['video']
         finalJSON['input-video'] = intermediateJSON
-        insertIntoTable(priority, finalJSON, i, position)
+        insertIntoTable(priority, finalJSON, i, position, uuid)
 
     elif data[i]['type'] == 'output-video':
-        intermediateJSON['path'] = data[i]['video']
+        intermediateJSON['path'] = data[i]['videoName']
         finalJSON['output-video'] = intermediateJSON
-        insertIntoTable(priority, finalJSON, i, position)
+        insertIntoTable(priority, finalJSON, i, position, uuid)
 
     elif data[i]['type'] == 'resolution':
         if data[i]['resolution'] == "480p":
             intermediateJSON['width'] = '720'
             intermediateJSON['height'] = '480'
             finalJSON['resolution'] = intermediateJSON
-            insertIntoTable(priority, finalJSON, i, position)
+            insertIntoTable(priority, finalJSON, i, position, uuid)
 
         elif data[i]['resolution'] == "720p":
             intermediateJSON['width'] = '1280'
             intermediateJSON['height'] = '720'
             finalJSON['resolution'] = intermediateJSON
-            insertIntoTable(priority, finalJSON, i, position)
+            insertIntoTable(priority, finalJSON, i, position, uuid)
 
         elif data[i]['resolution'] == "1080p":
             intermediateJSON['width'] = '1920'
             intermediateJSON['height'] = '1080'
             finalJSON['resolution'] = intermediateJSON
-            insertIntoTable(priority, finalJSON, i, position)
+            insertIntoTable(priority, finalJSON, i, position, uuid)
 
 
     elif data[i]['type'] == 'speed':
         intermediateJSON['video'] = data[i]['vitesseVideo']
         intermediateJSON['sound'] = data[i]['vitesseSon']
         finalJSON['speed'] = intermediateJSON
-        insertIntoTable(priority, finalJSON, i, position)
+        insertIntoTable(priority, finalJSON, i, position, uuid)
 
     elif data[i]['type'] == 'volume':
         intermediateJSON['value'] = data[i]['volume']
         finalJSON['volume'] = intermediateJSON
-        insertIntoTable(priority, finalJSON, i, position)
+        insertIntoTable(priority, finalJSON, i, position, uuid)
 
 data_file.close()
