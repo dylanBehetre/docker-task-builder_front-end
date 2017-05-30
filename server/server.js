@@ -17,15 +17,18 @@ var formidable = require('formidable');
 var fs = require('fs');
 
 http.createServer(function (req, res) {
-	console.log("Fct !");
+	res.setHeader('Access-Control-Allow-Origin', '*');
 	if (req.url == '/upload') {
 		var form = new formidable.IncomingForm();
-		//console.log(form);
 		form.parse(req, function (err, fields, files) {
-			var oldpath = files.filetoupload.path;
-			var newpath = 'C:\Users\Dylan' + files.filetoupload.name;
+			console.log(files);
+			var oldpath = files.maVideo.path;
+			var newpath = 'C:\Users\Dylan' + files.maVideo.name;
+			console.log(files.maVideo.name+" a ete uploade !");
 			fs.rename(oldpath, newpath, function (err) {
 				if (err) throw err;
+				res.write("Upload reussi !");
+				res.end();
 			});
 		});
 	}
