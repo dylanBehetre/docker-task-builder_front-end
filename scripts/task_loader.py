@@ -7,11 +7,19 @@ import os.path
 import time
 import re
 
+'''
+Author : Antoine-Adrien Parent
 
-# select * from priority where order_queue = (select min(order_queue) from priority);
+Ce script a pour but de lancer les tâches stockées en BDD.
+Il va aller chercher en BDD les tâches prioritaires s'il y en a, sinon il ira chercher les tâches non-prioritaires.
 
+Pour toutes questions : antoineparent@hotmail.fr
+'''
+
+#Sert à vérifier en BDD si la table "priority" est vide ou non.
+#Return True si la table est vide.
 def checkIfPrioEmpty():
-    with sqlite3.connect('bdd/provisioning.db') as DBconn:
+    with sqlite3.connect('/mnt/glusterfs/bdd/provisioning.db') as DBconn:
         c = DBconn.cursor()
         c.execute("SELECT MAX(order_queue) FROM priority;")
         position = c.fetchone()[0]
@@ -21,7 +29,8 @@ def checkIfPrioEmpty():
     else:
         return False
 
-
+#Sert à lancer la commande ffprobe et attendre qu'elle se termine.
+#La fonction récupère l'output de ffprobe et le return
 def ffprobeToJson(theFile):
     json = subprocess.check_output(
         'ffprobe -v quiet -print_format json -show_format -show_streams %s ' %theFile,
@@ -29,23 +38,24 @@ def ffprobeToJson(theFile):
         shell=True)
     return json
 
-
+#Return le champ "streams" du JSON récupéré avec ffprobe
 def streamsData(pythonJson):
     streams = pythonJson['streams']
-    length = len(streams) # Number of streams present in the mdeia
     return streams
 
-
+#Convertie l'output de ffprobe en JSON
 def jsonToPython(theJson):
     return json.loads(theJson)
 
-
+#Sert à vérifier qu'une tâche s'est bien terminée
 def isCompleted(task):
     result = subprocess.getstatusoutput("docker service ps "+task+" | sed -n 2p | sed -E \"s/[[:space:]]+/ /g\" | cut -f6 -d' '")[1]
     if result == "Complete":
         return True
     return False
 
+#Sert à savoir si un chemin est du type /zrezij/dapo/zpo ou C:\zefzef\htfgfr\zsdz
+#Return True si c'est un chemin de type unix /zerzer/efzfe/lpl
 def isUnixPath(path):
     pattern = re.compile("^\/$|(^(?=\/)|^\.|^\.\.)(\/(?=[^/\0])[^/\0]+)*\/?$")
     result = pattern.match(path)
@@ -53,6 +63,7 @@ def isUnixPath(path):
         return True
     return False
 
+#On donne un path de type unix et on récupère le nom de fichier
 def getUnixFilename(path):
     result = path
     result = result[::-1] #on met retourne la string à l'envers
@@ -60,7 +71,7 @@ def getUnixFilename(path):
     result = result[0][::-1] #on remet le nom du fichier à l'endroit
     return result
 
-
+#On donne un path de type windows et on récupère le nom de fichier
 def getWindowsFilename(path):
     result = path
     result = result[::-1] #on met retourne la string à l'envers
@@ -68,6 +79,7 @@ def getWindowsFilename(path):
     result = result[0][::-1] #on remet le nom du fichier à l'endroit
     return result
 
+#Permet de compter le nombre de canaux audio
 def countAudioStream(stream):
     cpt = 0
     for i in stream:
@@ -75,6 +87,7 @@ def countAudioStream(stream):
             cpt = cpt + 1
     return cpt
 
+#Permet de générer les paramètres pour la vitesse du son
 def genSpeedParam(nb_codec, vitesse):
     result_str = ""
     for i in range(nb):
@@ -84,12 +97,23 @@ def genSpeedParam(nb_codec, vitesse):
         result_str = result_str + " -map 0:a:"+i
     return result_str
 
+#Permet de générer les paramètres pour le volume
 def genVolumeParam(nb_codec, volume):
     result_str = "-af volume="+volume
     for i in range(nb_codec):
         result_str = result_str + "-map 0:a:"+i+" "
     return result_str
 
+
+
+
+"""
+
+Démarrage du script
+
+"""
+
+#On vérfie si la table priority est vide ou non
 empty = checkIfPrioEmpty()
 
 if empty:
@@ -97,12 +121,21 @@ if empty:
 else:
     table = "priority"
 
+#On initialise un dictionnaire qui contiendra les commandes à lancer
 commands = {}
-with sqlite3.connect('bdd/provisioning.db') as DBconn:
+
+
+
+
+#Co à la BDD pour récupérer les tâches à effectuer en fonction de leur position dans la queue
+with sqlite3.connect('/mnt/glusterfs/bdd/provisioning.db') as DBconn:
     c = DBconn.cursor()
     c.execute("SELECT command FROM "+ table +" WHERE order_queue = (SELECT min(order_queue) from "+ table +");")
     data = c.fetchall()
 DBconn.close()
+
+
+#Si la table n'est pas vide
 if data:
     for i in range(len(data)):
         #on reconstruit les commandes stockées en BDD en dictionnaire
@@ -112,16 +145,26 @@ if data:
         fname = getUnixFilename(commands['input-video']['path'])
     else:
         fname = getWindowsFilename(commands['input-video']['path'])
+
+    #Ici il faut mettre le chemin ou est téléchargé votre fichier uploadé via node-red
+    #pour notre part il se situe sur glusterfs (système de fichiers distribués)
     filepath = "/mnt/glusterfs/"+fname
     useless, file_extension = os.path.splitext(filepath) #useless = le chemin vers le fichier sans son extension || file_extension = l'extension du fichier ...
+
+    #On test si le fichier existe (s'il est arrivé sur le serveur)
     if os.path.isfile(filepath):
         ffprobeJson = ffprobeToJson(filepath)
         ffprobePython = jsonToPython(ffprobeJson)
         stream = streamsData(ffprobePython)
-        print("le fichier existe on va le split")
+
+        #on créé un uuid pour qu'il n'y ait pas de problème de nommage des tâches
         short_uuid = str(uuid.uuid4())[:8]
         task_name = short_uuid+ "_split_" + fname
-        subprocess.call(["docker","service","create","--mount","type=bind,src=/mnt/glusterfs,dst=/data","--mode=global","--restart-condition=none","--name="+task_name,"shellmaster/armhf-ffmpeg","-y","-i","/data/"+fname,"-f","segment","-reset_timestamps","1","-map","0","/data/"+short_uuid+"_"+fname+"%d."+file_extension])
+        #On créé le path du fichier à traiter dans le container ici car subprocess.call n'aime pas trop les %d
+        path_to_file_in_container = "/data/"+short_uuid+"_"+fname+"%d"+file_extension
+        #On lance le split
+        subprocess.call(["docker","service","create","--mount","type=bind,src=/mnt/glusterfs,dst=/data","--mode=global","--restart-condition=none","--name="+task_name,"shellmaster/armhf-ffmpeg","-y","-i","/data/"+fname,"-f","segment","-reset_timestamps","1","-map","0",path_to_file_in_container])
+        #fzefzef
         while not isCompleted(task_name):
             time.sleep(3)
         subprocess.call(["docker", "service", "rm", task_name])
@@ -145,9 +188,3 @@ if data:
 else:
     print("les deux tables sont vides")
     #on boucle
-
-
-
-
-##simulation lancer service faire un bon nommage
-##simulation savoir si script terminé dans docker service ps puis merge dans script différent

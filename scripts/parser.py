@@ -5,10 +5,18 @@ import sqlite3
 import uuid
 
 
+'''
+Author : Antoine-Adrien Parent
+
+Ce script a pour but de parser le JSON généré par node-red et de remplir la BDD
+
+Pour toutes questions : antoineparent@hotmail.fr
+'''
+
 #functions definitions
 #check queue position in priority table
 def checkPriorityQueue():
-    with sqlite3.connect('bdd/provisioning.db') as DBconn:
+    with sqlite3.connect('/mnt/glusterfs/bdd/provisioning.db') as DBconn:
         c = DBconn.cursor()
         c.execute("SELECT MAX(order_queue) FROM priority;")
         position = c.fetchone()[0]
@@ -21,7 +29,7 @@ def checkPriorityQueue():
 
 #check queue position in non-priority table
 def checkNormalPosition():
-    with sqlite3.connect('bdd/provisioning.db') as DBconn:
+    with sqlite3.connect('/mnt/glusterfs/bdd/provisioning.db') as DBconn:
         c = DBconn.cursor()
         c.execute("SELECT MAX(order_queue) FROM normal;")
         position = c.fetchone()[0]
@@ -41,7 +49,7 @@ def checkIfPrio(json_data):
             return True
 
 def insertIntoTable(booleanPrio, json, order_task, order_queue, uuid):
-    with sqlite3.connect('bdd/provisioning.db') as DBconn:
+    with sqlite3.connect('/mnt/glusterfs/bdd/provisioning.db') as DBconn:
         c = DBconn.cursor()
         if booleanPrio:#insert dans table priority
             print("INSERT INTO priority VALUES (\""+uuid+"\", json, \""+ str(i) +"\", \""+ str(position) +"\")")
@@ -50,6 +58,7 @@ def insertIntoTable(booleanPrio, json, order_task, order_queue, uuid):
             print("INSERT INTO normal VALUES (\""+uuid+"\", json, \""+ str(i) +"\", \""+ str(position) +"\")")
             c.execute("INSERT INTO normal VALUES (?, ?, ?, ?);", (uuid, str(json), str(i), str(position)))
         DBconn.commit()
+    DBconn.close()
         #fermer la table
 
 
