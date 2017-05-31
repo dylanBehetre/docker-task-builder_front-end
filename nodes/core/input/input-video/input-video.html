@@ -18,18 +18,31 @@
 <script type="text/x-red" data-template-name="input-video">
 	<div class="form-row">
 		<label for="node-input-video"><i class="fa fa-file-video-o"></i> Video</label>
-		<input type="file" id="node-input-video" placeholder="video">
+		<input type="file" id="node-input-video" name="maVideo">
+    </div>
+	<div class="form-row">
+		<label for="progress"><i class="fa fa-download"></i> Progression du téléchargment : </label>
+		<progress id="progress" value="0"></progress>
     </div>
 	
 	<script>
 	var fileInput = document.querySelector('#node-input-video');
+	var progress = document.querySelector('#progress');
+	
 	fileInput.addEventListener('change', function() {
 		var name = this.files[0].name;
-		alert("La vidéo "+name+" va être chargé sur notre cluster pour un traitement futur !");
+		alert("La vidéo "+name+" à commencé à être chargé sur notre cluster pour un traitement futur !\r\n"
+		+"Attention : veuillez attendre d'être notifier que votre vidéo à été parfaitement téléchargé avant de lancer le déploiement.");
  		
  		var xhr = new XMLHttpRequest();
  
  		xhr.open('POST', 'http://localhost:1881/upload', true);
+		
+		/*xhr.upload.addEventListener('progress', function(e) {
+			progress.value = e.loaded;
+			progress.max = e.total;
+		});*/
+		
  		xhr.addEventListener('load', function() {
  			alert("La vidéo "+name+" à été parfaitement chargé !");
  		});
