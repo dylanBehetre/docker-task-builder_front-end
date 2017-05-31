@@ -23,23 +23,25 @@ var server = http.createServer(function (req, res) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	
 	if (req.url == '/upload') {
+		res.write("Upload demarré !");
 		var form = new formidable.IncomingForm();
 		form.parse(req, function (err, fields, files) {
 			console.log(files);
 			var oldpath = files.maVideo.path;
-			//var newpath = 'C:\Users\Dylan' + files.maVideo.name;
 			var newpath = 'C:\Users\Dylan' + files.maVideo.name;
+			//var newpath = '/mnt/glusterfs' + files.maVideo.name;
 			console.log(files.maVideo.name+" a ete uploade !");
 			fs.rename(oldpath, newpath, function (err) {
 				if (err) throw err;
 				res.write("Upload reussi !");
 				res.end();
+				
 			});
 		});
+	}else{
+		res.writeHead(200);
+		res.end('Ok !');
 	}
-
-	res.writeHead(200);
-	res.end('Ok !');
 });
 
 server.listen(1881, function(){
