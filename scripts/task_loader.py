@@ -105,25 +105,15 @@ with sqlite3.connect('bdd/provisioning.db') as DBconn:
 DBconn.close()
 if data:
     for i in range(len(data)):
+        #on reconstruit les commandes stockées en BDD en dictionnaire
         commands = {**commands, **eval(data[i][0])} #merge les dictionnaires
-    # print(commands)
-    for i in commands:
-        if i == "speed":
-            print("commande speed : ffmpeg -i MONFICHIER -filter_complex [0:v]setpts=" + commands['speed']['video']+"*PTS[v]"+genSpeedParam(countAudioStream(stream), commands['speed']['sound'])) + "MONFICHIER")
-        elif i == "custom":
-            print("dcommande custom : ")
-        elif i == "resolution":
-            print("commande resolution : ")
-        elif i == "volume":
-            print("commande volume : ")
-        elif i == "encoding":
-            print("commande encoding : ")
+
     if isUnixPath(commands['input-video']['path']):
         fname = getUnixFilename(commands['input-video']['path'])
     else:
         fname = getWindowsFilename(commands['input-video']['path'])
     filepath = "/mnt/glusterfs/"+fname
-    useless, file_extension = os.path.splitext(filepath)
+    useless, file_extension = os.path.splitext(filepath) #useless = le chemin vers le fichier sans son extension || file_extension = l'extension du fichier ...
     if os.path.isfile(filepath):
         ffprobeJson = ffprobeToJson(filepath)
         ffprobePython = jsonToPython(ffprobeJson)
@@ -136,16 +126,25 @@ if data:
             time.sleep(3)
         subprocess.call(["docker", "service", "rm", task_name])
         #on lance les commandes
+        for i in commands:
+            if i == "speed":
+                print("commande speed : ffmpeg -i MONFICHIER -filter_complex [0:v]setpts=" + commands['speed']['video']+"*PTS[v]"+genSpeedParam(countAudioStream(stream), commands['speed']['sound'])) + "MONFICHIER")
+            elif i == "custom":
+                print("dcommande custom : ")
+            elif i == "resolution":
+                print("commande resolution : ")
+            elif i == "volume":
+                print("commande volume : ")
+            elif i == "encoding":
+                print("commande encoding : ")
 
     else:
-        print("le ficher existe pas")
-    #on a récup les commandes à lancer
-    #on lance d'abord le split
-    #subprocess.call(["docker","service","create","--mount","type=bind,src=/home/toinou/Documents,dst=/files","--mode=global","--restart-condition=none","--name=test","sjourdan/ffmpeg","-y","-i","/files/video.mp4","-acodec","copy","-f","segment","-vcodec","libx264","-reset_timestamps","1","-map","0","/files/output%d.mp4"])
+        print("le ficher existe pas ou n'a pas encore été téléchargé sur le serveur")
+        #on fait rien du coup ou on peut wait
 
 else:
     print("les deux tables sont vides")
-
+    #on boucle
 
 
 
