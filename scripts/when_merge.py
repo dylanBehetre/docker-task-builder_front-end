@@ -14,6 +14,9 @@ Ce script a pour but de merger les fichiers dont les traitements sont finis.
 Pour toutes questions : antoineparent@hotmail.fr
 '''
 
+#Le chemin vers le fichier .db
+pathToDatabase = '/mnt/glusterfs/bdd/provisioning.db'
+
 
 #Vérifie qu'une tache est terminée
 def isCompleted(task):
@@ -39,7 +42,7 @@ def try_to_remove_task(uuid):
         print("la commande du merge")
         for task in tasks:
             subprocess.call(["docker", "service", "rm", task])
-        with sqlite3.connect('/mnt/glusterfs/bdd/provisioning.db') as DBconn:
+        with sqlite3.connect(pathToDatabase) as DBconn:
             c = DBconn.cursor()
             #on a juste l'uuid mais on sait pas de quel table il vient, on suppr dans les 2
             try:

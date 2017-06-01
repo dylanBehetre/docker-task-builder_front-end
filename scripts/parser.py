@@ -13,10 +13,13 @@ Ce script a pour but de parser le JSON généré par node-red et de remplir la B
 Pour toutes questions : antoineparent@hotmail.fr
 '''
 
+#Le chemin vers le fichier .db
+pathToDatabase = '/mnt/glusterfs/bdd/provisioning.db'
+
 #functions definitions
 #check queue position in priority table
 def checkPriorityQueue():
-    with sqlite3.connect('/mnt/glusterfs/bdd/provisioning.db') as DBconn:
+    with sqlite3.connect(pathToDatabase) as DBconn:
         c = DBconn.cursor()
         c.execute("SELECT MAX(order_queue) FROM priority;")
         position = c.fetchone()[0]
@@ -29,7 +32,7 @@ def checkPriorityQueue():
 
 #check queue position in non-priority table
 def checkNormalPosition():
-    with sqlite3.connect('/mnt/glusterfs/bdd/provisioning.db') as DBconn:
+    with sqlite3.connect(pathToDatabase) as DBconn:
         c = DBconn.cursor()
         c.execute("SELECT MAX(order_queue) FROM normal;")
         position = c.fetchone()[0]
@@ -49,7 +52,7 @@ def checkIfPrio(json_data):
             return True
 
 def insertIntoTable(booleanPrio, json, order_task, order_queue, uuid):
-    with sqlite3.connect('/mnt/glusterfs/bdd/provisioning.db') as DBconn:
+    with sqlite3.connect(pathToDatabase) as DBconn:
         c = DBconn.cursor()
         if booleanPrio:#insert dans table priority
             print("INSERT INTO priority VALUES (\""+uuid+"\", json, \""+ str(i) +"\", \""+ str(position) +"\")")

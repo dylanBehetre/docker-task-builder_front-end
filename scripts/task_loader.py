@@ -16,10 +16,15 @@ Il va aller chercher en BDD les tâches prioritaires s'il y en a, sinon il ira c
 Pour toutes questions : antoineparent@hotmail.fr
 '''
 
+
+#Le chemin vers le fichier .db
+pathToDatabase = 'bdd/provisioning.db'
+
+
 #Sert à vérifier en BDD si la table "priority" est vide ou non.
 #Return True si la table est vide.
 def checkIfPrioEmpty():
-    with sqlite3.connect('/mnt/glusterfs/bdd/provisioning.db') as DBconn:
+    with sqlite3.connect(pathToDatabase) as DBconn:
         c = DBconn.cursor()
         c.execute("SELECT MAX(order_queue) FROM priority;")
         position = c.fetchone()[0]
@@ -88,7 +93,7 @@ def countAudioStream(stream):
     return cpt
 
 #Permet de générer les paramètres pour la vitesse du son
-def genSpeedParam(nb_codec, vitesse):
+def strgenSpeedParam(nb_codec, vitesse):
     result_str = ""
     for i in range(nb):
         result_str = result_str + ";[0:a:"+i+"]atempo="+vitesse
@@ -98,13 +103,18 @@ def genSpeedParam(nb_codec, vitesse):
     return result_str
 
 #Permet de générer les paramètres pour le volume
-def genVolumeParam(nb_codec, volume):
+def strgenVolumeParam(nb_codec, volume):
     result_str = "-af volume="+volume
     for i in range(nb_codec):
         result_str = result_str + "-map 0:a:"+i+" "
     return result_str
 
-
+#Permet de générer les paramètres pour l'encodage
+def strgenEncodingParam(nb_codec, codec):
+    result_str = ""
+    for i in range(nb_codec):
+        result_str = result_str + " -codec:a:"+i+":"+codec
+    return result_str
 
 
 """
@@ -128,7 +138,7 @@ commands = {}
 
 
 #Co à la BDD pour récupérer les tâches à effectuer en fonction de leur position dans la queue
-with sqlite3.connect('/mnt/glusterfs/bdd/provisioning.db') as DBconn:
+with sqlite3.connect(pathToDatabase) as DBconn:
     c = DBconn.cursor()
     c.execute("SELECT command FROM "+ table +" WHERE order_queue = (SELECT min(order_queue) from "+ table +");")
     data = c.fetchall()
@@ -140,7 +150,7 @@ if data:
     for i in range(len(data)):
         #on reconstruit les commandes stockées en BDD en dictionnaire
         commands = {**commands, **eval(data[i][0])} #merge les dictionnaires
-
+        
     if isUnixPath(commands['input-video']['path']):
         fname = getUnixFilename(commands['input-video']['path'])
     else:
@@ -164,22 +174,21 @@ if data:
         path_to_file_in_container = "/data/"+short_uuid+"_"+fname+"%d"+file_extension
         #On lance le split
         subprocess.call(["docker","service","create","--mount","type=bind,src=/mnt/glusterfs,dst=/data","--mode=global","--restart-condition=none","--name="+task_name,"shellmaster/armhf-ffmpeg","-y","-i","/data/"+fname,"-f","segment","-reset_timestamps","1","-map","0",path_to_file_in_container])
-        #fzefzef
         while not isCompleted(task_name):
             time.sleep(3)
         subprocess.call(["docker", "service", "rm", task_name])
         #on lance les commandes
         for i in commands:
             if i == "speed":
-                print("commande speed : ffmpeg -i MONFICHIER -filter_complex [0:v]setpts=" + commands['speed']['video']+"*PTS[v]"+genSpeedParam(countAudioStream(stream), commands['speed']['sound'])) + "MONFICHIER")
+                print("commande speed : ffmpeg -i MONFICHIER -filter_complex [0:v]setpts=" + commands['speed']['video']+"*PTS[v]"+ strgenSpeedParam(countAudioStream(stream), commands['speed']['sound']) + " -scodec copy -map 0 MONFICHIER")
             elif i == "custom":
-                print("dcommande custom : ")
+                print("commande custom : "+commands['custom']['command'])
             elif i == "resolution":
-                print("commande resolution : ")
+                print("commande resolution : ffmpeg -i MONFICHIER -vf scale=" + commands['resolution']['width'] +":" + commands['resolution']['height'] + "-acodec copy -scodec copy -map 0 MONFICHIER")
             elif i == "volume":
-                print("commande volume : ")
+                print("commande volume : ffmpeg -i input/Insaisissables.mkv -af " + strgenVolumeParam(countAudioStream(stream), commands['volume']['value']) + " -vcodec copy -scodec copy -map 0 MONFICHIER")
             elif i == "encoding":
-                print("commande encoding : ")
+                print("commande encoding : ffmpeg -i input/Insaisissables.mkv -vcodec "+ commands['encoding']['codec'] + strgenEncodingParam(countAudioStream(stream), commands['encoding']['codec']) + " -codec:s copy -map 0 MONFICHIER")
 
     else:
         print("le ficher existe pas ou n'a pas encore été téléchargé sur le serveur")
