@@ -3,6 +3,12 @@
 ffprobe -v quiet -print_format json -show_format -show_streams "input.mp4" > "input.mp4.json"
 
 
+## encodage (générer pour chaque stream)
+ffmpeg -i input/Insaisissables.mkv -vcodec LENCODAGEVIDEO -codec:a:0 LENCODAGEAUDIO -codec:a:1 LENCODAGEAUDIO -codec:s copy -map 0 codecOutput.mkv
+
+
+
+
 ## Split
 
 ffmpeg -i ../Scarecrow\ -\ The\ Well\ \(Official\ Video\).mp4 -reset_timestamps 1 -map 0 OUTPUT%d.mp4
@@ -21,7 +27,7 @@ ffmpeg -f concat -safe 0 -i list.txt -c copy output.mp4
 ##[0:v]setpts => alter video speed (fonction inverse)
 ##[0:a]atempo => alter audio speed (fonction inversement inverse) (compris entre 0.5 et 2)
 
-ffmpeg -i input/Insaisissables.mkv -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a:0]atempo=2.0;[0:a:1]atempo=2.0" -map "[v]" -map 0:a:0 -map 0:a:1 outputMultiAudio.mkv
+ffmpeg -i INPUTFILE -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a:0]atempo=2.0;[0:a:1]atempo=2.0" -map "[v]" -scodec copy -map 0 OUTPUTFILE
 
 
 
@@ -29,12 +35,12 @@ ffmpeg -i input/Insaisissables.mkv -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a:
 ##volume (fonction inversement inverse)
 ## -af is an alias for -filter:a
 
-ffmpeg -i input/Insaisissables.mkv -af "volume=15" -map 0:a:0 -map 0:a:1  output/mapInsaisissables.mkv
+ffmpeg -i INPUTFILE -filter:a:0 "volume=15" -filter:a:1 "volume=15" -vcodec copy -scodec copy -map 0 volume.mkv
 
 
 ###Resolution
 ## -vf is an alias for -filter:v
 
-1. ffmpeg -i input.mp4 -vf scale=1080:720 output.mp4 (we impose both width and heigth)
-2. ffmpeg -i input.jpg -vf scale=320:-1 output.png (only one component is specified, so we keep the aspect ratio with -1)
+1. ffmpeg -i input/Insaisissables.mkv -vf scale=1080:720 -acodec copy -scodec copy -map 0 resolution.mkv (we impose both width and heigth)
+2. ffmpeg -i input.jpg -vf scale=320:-1 -acodec copy -scodec copy -map 0 resolution.mkv output.png (only one component is specified, so we keep the aspect ratio with -1)
 
