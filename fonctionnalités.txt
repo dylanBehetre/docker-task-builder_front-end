@@ -27,7 +27,7 @@ ffmpeg -f concat -safe 0 -i list.txt -c copy output.mp4
 ##[0:v]setpts => alter video speed (fonction inverse)
 ##[0:a]atempo => alter audio speed (fonction inversement inverse) (compris entre 0.5 et 2)
 
-ffmpeg -i input/Insaisissables.mkv -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a:0]atempo=2.0;[0:a:1]atempo=2.0" -map "[v]" -map 0:a:0 -map 0:a:1 outputMultiAudio.mkv
+ffmpeg -i INPUTFILE -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a:0]atempo=2.0;[0:a:1]atempo=2.0" -map "[v]" -scodec copy -map 0 OUTPUTFILE
 
 
 
@@ -35,7 +35,7 @@ ffmpeg -i input/Insaisissables.mkv -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a:
 ##volume (fonction inversement inverse)
 ## -af is an alias for -filter:a
 
-ffmpeg -i input/Insaisissables.mkv -af "volume=15" -map 0:a:0 -map 0:a:1  output/mapInsaisissables.mkv
+ffmpeg -i INPUTFILE -filter:a:0 "volume=15" -filter:a:1 "volume=15" -vcodec copy -scodec copy -map 0 volume.mkv
 
 
 ###Resolution
