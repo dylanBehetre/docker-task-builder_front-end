@@ -4,7 +4,7 @@ ffprobe -v quiet -print_format json -show_format -show_streams "input.mp4" > "in
 
 
 ## encodage (générer pour chaque stream)
-ffmpeg -i input/Insaisissables.mkv -vcodec LENCODAGEVIDEO -codec:a:0 LENCODAGEVIDEO -codec:a:1 LENCODAGEVIDEO codecOutput.mkv
+ffmpeg -i input/Insaisissables.mkv -vcodec LENCODAGEVIDEO -codec:a:0 LENCODAGEAUDIO -codec:a:1 LENCODAGEAUDIO -codec:s copy -map 0 codecOutput.mkv
 
 
 
