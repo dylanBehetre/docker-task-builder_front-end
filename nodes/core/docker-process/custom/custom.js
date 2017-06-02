@@ -8,18 +8,11 @@ module.exports = function(RED) {
 		this.nomImage = config.nomImage;
 		this.commandeRun = config.commandeRun;
 		
-		/*Creation d'un listener qui permet de recuperer l'entre pour travailler dessus*/
-		this.on('input', function(input) {
-			// do something with 'input'
-		});
-		
 		/*Traitement souhaite*/
-		this.log("CustomNode work !");
-		
-		
-		/*Envoi d'un valeur sur la sortie*/
-		var sortie = { payload:"hi" }
-		this.send(sortie);
+		this.on('input', function(msg) {
+			this.send(msg);
+		});
+		this.log("CustomNode executed !");
 		
 	}
 	

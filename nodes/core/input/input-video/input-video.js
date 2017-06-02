@@ -7,18 +7,15 @@ module.exports = function(RED) {
 		/*Recupération des parametres configurer dans le noeud*/
 		this.video = config.video;
 		
-		/*Traitement souhaite*/
-		this.log("InputVideoNode fct !");
+		/*Traitement souhaite*/		
+		var iNameBeginning = this.video.lastIndexOf('\\');
+		var videoName = this.video.substring(iNameBeginning+1);
 		
-		var iNameBeginning = this.video.lastIndexOf("\\\\");
-		console.log(iNameBeginning);
-		var videoName = this.video.substring(iNameBeginning);
-		this.status({fill:"yellow",shape:"dot",text:videoName||""});	
+		this.status({fill:"yellow",shape:"dot",text:"name : "+videoName||""});	
+		var msg = { payload:videoName }
+		this.send(msg);
 		
-		/*Envoi d'un valeur sur la sortie*/
-		var sortie = { payload:"hi" }
-		this.send(sortie);
-		
+		this.log("InputVideoNode executed !");
 	}
 	
 	RED.nodes.registerType("input-video",InputVideoNode);

@@ -7,19 +7,14 @@ module.exports = function(RED) {
 		/*Recupération des parametres configurer dans le noeud*/
 		this.volume = config.volume;
 		
-		/*Creation d'un listener qui permet de recuperer l'entre pour travailler dessus*/
-		this.on('input', function(input) {
-			// do something with 'input'
-		});
-		
 		/*Traitement souhaite*/
-		this.log("Volume work !");
 		this.status({fill:"yellow",shape:"dot",text:this.volume});
 		
+		this.on('input', function(msg) {
+			this.send(msg);
+		});
 		
-		/*Envoi d'un valeur sur la sortie*/
-		var sortie = { payload:"hi" }
-		this.send(sortie);
+		this.log("VolumeNode executed !");
 		
 	}
 	

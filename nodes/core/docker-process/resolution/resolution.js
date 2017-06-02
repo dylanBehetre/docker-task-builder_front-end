@@ -13,14 +13,13 @@ module.exports = function(RED) {
 		});
 		
 		/*Traitement souhaite*/
-		this.log("ResolutionNode work !");
 		this.status({fill:"yellow",shape:"dot",text:this.resolution});
 		
+		this.on('input', function(msg) {
+			this.send(msg);
+		});
 		
-		/*Envoi d'un valeur sur la sortie*/
-		var sortie = { payload:"hi" }
-		this.send(sortie);
-		
+		this.log("ResolutionNode executed !");
 	}
 	
 	RED.nodes.registerType("resolution", ResolutionNode);

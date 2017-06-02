@@ -38,10 +38,10 @@
  
  		xhr.open('POST', 'http://localhost:1881/upload', true);
 		
-		/*xhr.upload.addEventListener('progress', function(e) {
+		xhr.upload.addEventListener('progress', function(e) {
 			progress.value = e.loaded;
 			progress.max = e.total;
-		});*/
+		});
 		
  		xhr.addEventListener('load', function() {
  			alert("La vidéo "+name+" à été parfaitement chargé !");

@@ -7,21 +7,15 @@ module.exports = function(RED) {
 		/*Recupération des parametres configurer dans le noeud*/
 		this.vitesseVideo = config.vitesseVideo;
 		this.vitesseSon = config.vitesseSon;
-		
-		/*Creation d'un listener qui permet de recuperer l'entre pour travailler dessus*/
-		this.on('input', function(input) {
-			// do something with 'input'
-		});
-		
+
 		/*Traitement souhaite*/
-		this.log("Speed work !");
 		this.status({fill:"yellow",shape:"dot",text:"Video:"+this.vitesseVideo+"\r\n"+"Son:"+this.vitesseSon});
 		
+		this.on('input', function(msg) {
+			this.send(msg);
+		});
 		
-		/*Envoi d'un valeur sur la sortie*/
-		var sortie = { payload:"hi" }
-		this.send(sortie);
-		
+		this.log("SpeedNode executed !");
 	}
 	
 	RED.nodes.registerType("speed",SpeedNode);

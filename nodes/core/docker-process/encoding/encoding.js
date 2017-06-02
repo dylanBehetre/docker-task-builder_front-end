@@ -7,19 +7,13 @@ module.exports = function(RED) {
 		/*Recupération des parametres configurer dans le noeud*/
 		this.encoding = config.encoding;
 		
-		/*Creation d'un listener qui permet de recuperer l'entre pour travailler dessus*/
-		this.on('input', function(input) {
-			// do something with 'input'
-		});
-		
 		/*Traitement souhaite*/
-		this.log("Encoding fct !");
 		this.status({fill:"yellow",shape:"dot",text:this.encoding});
 		
-		
-		/*Envoi d'un valeur sur la sortie*/
-		var sortie = { payload:"hi" }
-		this.send(sortie);
+		this.on('input', function(msg) {
+			this.send(msg);
+		});
+		this.log("EncodingNode executed !");
 		
 	}
 	

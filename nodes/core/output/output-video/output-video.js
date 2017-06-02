@@ -1,3 +1,6 @@
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var FormData = require('form-data');
+
 module.exports = function(RED) {
 	/*Fonction servant de constructeur*/
 	function OutputVideoNode(config) {
@@ -8,7 +11,6 @@ module.exports = function(RED) {
 		this.videoName = config.videoName;
 		this.priority = config.priority;
 		
-		/*Creation d'un listener qui permet de recuperer l'entre pour travailler dessus*/
 		var priorityString = "";
 		switch (this.priority) {
 			case "0" : 
@@ -24,15 +26,27 @@ module.exports = function(RED) {
 		
 		this.status({fill:"yellow",shape:"dot",text:"Priority : "+priorityString});
 		
-		//alert('Votre video est disponible : <a href="http://example.com/files/myfile.pdf" target="_blank">Download</a>');
-		//window.open("http://localhost:1881/test.jpg");
-		this.on('input', function(input) {
-			// do something with 'input'
-		});
-		
 		/*Traitement souhaite*/
-		this.log("OutputVideo work !");
+		var videoOriginalName="";
+		this.on('input', function(msg) {
+			videoOriginalName = msg.payload;
+			this.log(msg);
+		});
+		this.log(videoOriginalName);
+		this.log(this.videoName);
+		/*The download*/ //TODO: Reussier déclencher le téléchargement via XMLHttpRequest
+		var xhr = new XMLHttpRequest();
+ 		xhr.open('GET', 'http://localhost:1881/download', true);
 		
+		var form = new FormData();
+ 		form.append('originalName', "2013-07-13 20.12.14.jpg");
+ 		form.append('finalName', this.videoName);
+ 		//xhr.send(form.toString());
+ 		xhr.send();
+		
+		this.send("http://localhost:1881/download");
+		
+		this.log("OutputVideoNode executed !");
 	}
 	
 	RED.nodes.registerType("output-video",OutputVideoNode);
